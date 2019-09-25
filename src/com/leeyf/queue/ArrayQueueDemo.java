@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class ArrayQueueDemo {
     public static void main(String[] args) {
         ArrayQueue arrayQueue = new ArrayQueue(3);
-        char key = ' ';//接收用户输入
+        char key;//接收用户输入
         Scanner scanner = new Scanner(System.in);
         boolean loop = true;
         while (loop) {
@@ -65,7 +65,7 @@ class ArrayQueue {
     private int[] arr;//该数组存放数据,模拟队列
 
     //创建队列的构造器
-    public ArrayQueue(int arrMaxSize) {
+    ArrayQueue(int arrMaxSize) {
         maxSize = arrMaxSize;
         arr = new int[maxSize];
         front = -1; //指向队列头部的前一位
@@ -73,7 +73,7 @@ class ArrayQueue {
     }
 
     //判断队列是否满
-    public boolean isFull() {
+    private boolean isFull() {
         return rear == maxSize - 1;
     }
 
@@ -83,7 +83,7 @@ class ArrayQueue {
     }
 
     //添加数据到队列
-    public void addQueue(int n) {
+    void addQueue(int n) {
         //判断队列是否满
         if (isFull()) {
             System.out.println("队列满，不能加入数据");
@@ -94,7 +94,7 @@ class ArrayQueue {
     }
 
     //获取队列的数据，出队列
-    public int getQuene() {
+    int getQuene() {
         if (isEmpty()) {
             //抛出异常
             throw new RuntimeException("队列空，不能取数据");
@@ -104,7 +104,7 @@ class ArrayQueue {
     }
 
     //显示队列的所有数据
-    public void showQueue() {
+    void showQueue() {
         if (isEmpty()) {
             System.out.println("队列为空");
             return;
@@ -115,14 +115,12 @@ class ArrayQueue {
     }
 
     //显示队列的头部数据(部署取出)
-    public int headQueue() {
+    int headQueue() {
         if (isEmpty()) {
             throw new RuntimeException("队列空，无数据");
         }
         return arr[front + 1];
     }
 
-    public ArrayQueue() {
-    }
 }
 
