@@ -4,7 +4,7 @@ package com.leeyf.queue;
 import java.util.Scanner;
 
 /**
- * 数组模拟队列
+ * 数组模拟非环形队列
  */
 public class ArrayQueueDemo {
     public static void main(String[] args) {
@@ -57,7 +57,7 @@ public class ArrayQueueDemo {
         System.out.println("程序退出");
     }
 }
-
+//非环形队列
 class ArrayQueue {
     private int maxSize; //数组最大容量
     private int front; //队列头
