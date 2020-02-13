@@ -1369,8 +1369,111 @@ public class Solution {
         nums[j] = temp;
     }
 
+    public int numTrees(int n) {
 
-    public static void main(String[] args) {
+        int[] G = new int[n+1];
+        G[0] = 1;
+        G[1] = 1;
+        for (int i = 2; i <=n ; i++) {
+            for (int j = 1; j <=i; j++) {
+                G[i] += G[j-1]*G[n-j];
+
+            }
+        }
+        return G[n];
+
+    }
+
+    public boolean Find(int target, int [][] array) {
+
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 0; j < array.length; j++) {
+                if(array[i].length==0){
+                    return false;
+                }
+                if(target==array[i][j]){
+                    return true;
+                }else if(target>array[i][array.length-1]){
+                    break;
+                }
+            }
+        }
+        return false;
+
+    }
+
+    public String replaceSpace(StringBuffer str) {
+        StringBuilder stringBuilder = new StringBuilder("");
+        int x =0;
+        for (int i = 0; i < str.length(); i++) {
+            if(str.charAt(i)!=' '){
+                stringBuilder.append(str.charAt(i));
+
+            }else {
+                stringBuilder.append("%20");
+            }
+
+        }
+        return stringBuilder.toString();
+    }
+
+    //public ArrayList<Integer> printListFromTailToHead(ListNode listNode) {
+    //   while (listNode!=null && listNode.next!=null){
+    //
+    //   }
+    //}
+    public ArrayList<Integer> printListFromTailToHead(ListNode listNode) {
+        ArrayList<Integer> curlist = new ArrayList<>();
+        ArrayList<Integer> ans2 = new ArrayList<>();
+        ListNode cur = listNode;
+        while (cur!=null) {
+            curlist.add(cur.val);
+            cur =cur.next;
+        }
+        for (int i = curlist.size()-1; i >= 0; i--) {
+            ans2.add(curlist.get(i));
+        }
+        return ans2;
+    }
+
+    //Stack<Integer> stack1 = new Stack<Integer>();
+    //Stack<Integer> stack2 = new Stack<Integer>();
+    //
+    //public void push(int node) {
+    //    while (!stack1.isFull()){
+    //        stack1.push(node);
+    //    }
+    //    while (!stack1.isEmpty()){
+    //        stack2.push((Integer) stack1.pop());
+    //    }
+    //}
+    //
+    //public int pop() {
+    //    return (int) stack2.pop();
+    //}
+
+    public ListNode ReverseList(ListNode head) {
+        if(head==null||head.next==null){
+            return null;
+        }
+        ListNode cur = head;
+        ListNode next =null;
+
+        ListNode ans = null;
+        while(cur!=null){
+            next = cur.next;
+            cur.next = ans;
+            ans =cur;
+            cur = next;
+
+        }
+        return ans;
+    }
+
+
+
+
+        public static void main(String[] args) {
         Solution solution = new Solution();
         // System.out.println(solution.romanToInt("III"));
         String[] strings = {"flower", "flow", "flight"};
@@ -1403,6 +1506,7 @@ public class Solution {
 //        double as = solution.findMedianSortedArrays(new int[]{1, 3}, new int[]{2, 4});
 //        solution.threeSumClosest(new int[]{1,1,1,0},-100);
         solution.fourSum(new int[]{1, 0, -1, 0, -2, 2}, 0);
+        solution.ReverseList(l10);
     }
 }
 

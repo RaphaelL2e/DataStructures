@@ -1,5 +1,6 @@
 package com.leeyf.queue;
 
+import java.util.Queue;
 import java.util.Scanner;
 
 /**
