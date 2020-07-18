@@ -270,6 +270,7 @@ public class Solution {
         // 思路：将一个字符串，分隔成一个字符数组，
 
         char[] chars = s.toCharArray();
+
         for (int i = chars.length; i > 0; i--) {
             for (int j = 0; j <= chars.length - i; j++) {
                 String newString = s.substring(j, j + i);
@@ -1472,6 +1473,73 @@ public class Solution {
 
 
 
+        public ArrayList<Integer> printMatrix(int [][] matrix) {
+            int top=-1;
+            int bottom=matrix.length;
+            int left=-1;
+            int right=matrix[0].length;
+            int i=0;
+            int j=0;
+            final int sum = (matrix.length)*(matrix[0].length);
+            ArrayList<Integer> ans = new ArrayList<>();
+            if(left==right){
+                ans.add(matrix[i][j]);
+                return ans;
+            }
+            while(i>top&&i<=bottom&&j>=left&&j<=right){
+                if(ans.size()==sum){
+                    break;
+                }
+                //右移
+                if(i==top+1&&j<right){
+                    ans.add(matrix[i][j]);
+                    if(j+1!=right){
+                        j++;
+                    }else{
+                        right--;
+                        i++;
+                    }
+                    continue;
+                }
+                //下移
+                if(j==right&&i<bottom){
+                    ans.add(matrix[i][j]);
+                    if(i+1!=bottom){
+                        i++;
+                    }else{
+                        bottom--;
+                        j--;
+                    }
+                    continue;
+                }
+                if(i==bottom&&j>left){
+                    ans.add(matrix[i][j]);
+                    if(j-1!=left){
+
+                        j--;
+                    }else{
+                        left++;
+                        i--;
+                    }
+                    continue;
+                }
+                if(j==left&&i>top){
+                    ans.add(matrix[i][j]);
+                    if(i-1!=top+1){
+
+                        i--;
+                    }else{
+                        top++;
+                        j++;
+                    }
+                    continue;
+                }
+
+            }
+            return ans;
+        }
+
+
 
         public static void main(String[] args) {
         Solution solution = new Solution();
@@ -1506,7 +1574,8 @@ public class Solution {
 //        double as = solution.findMedianSortedArrays(new int[]{1, 3}, new int[]{2, 4});
 //        solution.threeSumClosest(new int[]{1,1,1,0},-100);
         solution.fourSum(new int[]{1, 0, -1, 0, -2, 2}, 0);
-        solution.ReverseList(l10);
+        //solution.ReverseList(l10);
+            solution.printMatrix(new int[][]{{1,2,3},{4,5,6},{7,8,9}});
     }
 }
 
