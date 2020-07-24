@@ -1,9 +1,8 @@
 package com.leeyf.newcoder;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
+import com.leeyf.tree.TreeNode;
+
+import java.util.*;
 
 /**
  * 请实现一个函数用来找出字符流中第一个只出现一次的字符。例如，当从字符流中只读出前两个字符"go"时，第一个只出现一次的字符是"g"。当从该字符流中读出前六个字符“google"时，第一个只出现一次的字符是"l"。
@@ -255,30 +254,196 @@ class Solution4 {
  class Solution6 {
     public ArrayList<ArrayList<Integer> > FindContinuousSequence(int sum) {
         ArrayList<ArrayList<Integer>> ans = new ArrayList<>();
-        int a=0 ,b=1;
-        while (a<sum &&b<sum&& a<b){
-            int sum2 = a;
-            for (int i = a; i <=b ; i++) {
-                sum2 +=b;
-            }
-            if(sum2<sum){
-                b++;
-            }else if(sum2>sum){
-                a++;
-            }else {
-                ArrayList<Integer> list = new ArrayList();
-                for (int i = a; i <=b ; i++) {
-                    list.add(i);
-                }
-                ans.add(list);
-                b++;
-            }
-        }
+        int a=1 ,b=2;
+       if (sum<=a){
+           return ans;
+       }
+       while (a<sum || b<sum && a<b){
+           //a-b的和
+           int sum2 = 0;
+           for (int i = a; i <=b ; i++) {
+               sum2 += i;
+
+           }
+           if(sum2==sum){
+               ArrayList<Integer> list = new ArrayList();
+               for (int i = a; i <=b ; i++) {
+                   list.add(i);
+               }
+               ans.add(list);
+               a++;
+           }else if (sum2<sum){
+               b++;
+           }else {
+               a++;
+           }
+       }
+
         return ans;
     }
 
     public static void main(String[] args) {
         Solution6 solution6 = new Solution6();
-        solution6.FindContinuousSequence(100);
+        solution6.FindContinuousSequence(3);
+    }
+}
+
+//num1,num2分别为长度为1的数组。传出参数
+//将num1[0],num2[0]设置为返回结果
+class Solution7 {
+    public void FindNumsAppearOnce(int [] array,int num1[] , int num2[]) {
+        Map<Integer,Integer> map = new HashMap<>();
+        for(int num:array){
+            if(!map.containsKey(num) ){
+                map.put(num,1);
+            }else {
+                map.put(num,map.get(num)+1);
+            }
+        }
+        for (Map.Entry<Integer,Integer> kv:map.entrySet()){
+            if(kv.getValue()==1 &&num1[0] ==0){
+                num1[0] = kv.getKey();
+            }else if(kv.getValue()==1 &&num2[0] ==0){
+                num2[0] = kv.getKey();
+            }
+        }
+
+    }
+}
+
+ class Solution8 {
+    public boolean IsBalanced_Solution(TreeNode root) {
+        return depth(root)!=-1;
+    }
+
+    int depth(TreeNode node){
+        if(node==null){
+            return 0;
+        }
+        int leftDepth = depth(node.left);
+        if(leftDepth==-1) return -1;
+        int rightDepth = depth(node.right);
+        if(rightDepth == -1)return -1;
+        if(leftDepth-rightDepth<(-1)||leftDepth-rightDepth>1){
+            return -1;
+        }else {
+            return 1+(Math.max(leftDepth, rightDepth));
+        }
+    }
+
+}
+
+class Solution9 {
+    class ListNode {
+        int val;
+        ListNode next = null;
+
+        ListNode(int val) {
+            this.val = val;
+        }
+    }
+    public int GetNumberOfK(int [] array , int k) {
+        int ans = 0;
+        for (int num :array){
+            if(k==num){
+                ans++;
+            }
+        }
+        return ans;
+    }
+
+    public ListNode FindFirstCommonNode(ListNode pHead1, ListNode pHead2) {
+        if(pHead1 ==null || pHead2 == null){
+            return null;
+        }
+        ListNode tmp1 = pHead1;
+
+        while (tmp1!=null){
+            ListNode tmp2 = pHead2;
+           while (tmp2!=null){
+               if(tmp1.val == tmp2.val){
+                   return tmp1;
+               }else {
+                   tmp2 = tmp2.next;
+               }
+           }
+           tmp1 =tmp1.next;
+        }
+        return null;
+    }
+
+    /**
+     * 例子如n=1234，high=1, pow=1000, last=234
+     *
+     * 可以将数字范围分成两部分1~999和1000~1234
+     *
+     * 1~999这个范围1的个数是f(pow-1)
+     * 1000~1234这个范围1的个数需要分为两部分：
+     * 千分位是1的个数：千分位为1的个数刚好就是234+1(last+1)，注意，这儿只看千分位，不看其他位
+     * 其他位是1的个数：即是234中出现1的个数，为f(last)
+     * 所以全部加起来是f(pow-1) + last + 1 + f(last);
+     *
+     * 例子如3234，high=3, pow=1000, last=234
+     *
+     * 可以将数字范围分成两部分1~999，1000~1999，2000~2999和3000~3234
+     *
+     * 1~999这个范围1的个数是f(pow-1)
+     * 1000~1999这个范围1的个数需要分为两部分：
+     * 千分位是1的个数：千分位为1的个数刚好就是pow，注意，这儿只看千分位，不看其他位
+     * 其他位是1的个数：即是999中出现1的个数，为f(pow-1)
+     * 2000~2999这个范围1的个数是f(pow-1)
+     * 3000~3234这个范围1的个数是f(last)
+     * 所以全部加起来是pow + high*f(pow-1) + f(last);
+     *
+     * 作者：xujunyi
+     * 链接：https://leetcode-cn.com/problems/1nzheng-shu-zhong-1chu-xian-de-ci-shu-lcof/solution/javadi-gui-by-xujunyi/
+     * 来源：力扣（LeetCode）
+     * 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+     * @param n
+     * @return
+     */
+    public int NumberOf1Between1AndN_Solution(int n) {
+        return helper(n);
+    }
+
+    //计算每个数的n
+    int helper(int n){
+        if(n<=0){
+            return 0;
+        }
+        String s = String.valueOf(n);
+        int high = s.charAt(0) -'0'; //首位
+        int pow = (int) Math.pow(10,s.length()-1); //比n小的10的幂次
+        int last = n - high*pow;//其余位数
+        if(high==1){
+
+            return helper(pow-1) +last+1+helper(last);
+        }else {
+            return pow + high*helper(pow-1)+helper(last);
+        }
+
+    }
+
+
+    public  static void main(String[] args) {
+        Solution9 solution9 = new Solution9();
+        System.out.println(solution9.NumberOf1Between1AndN_Solution(100));
+    }
+}
+
+class Solution10 {
+    public int FindGreatestSumOfSubArray(int[] array) {
+        int[] p = new int[array.length];
+        p[0] = 0;
+        int ret = array[0];
+        for (int i = 1; i < array.length; i++) {
+            p[i] = Math.max(array[i-1],p[i-1]+array[i-1]);
+            ret = Math.max(ret, p[i]);
+        }
+        return p[array.length-1];
+    }
+
+    public static void main(String[] args) {
+        System.out.println('9'-'1');
     }
 }

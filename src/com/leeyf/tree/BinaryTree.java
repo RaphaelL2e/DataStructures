@@ -312,5 +312,40 @@ public class BinaryTree {
     public TreeNode getRoot() {
         return root;
     }
+
+    /**
+     * 1 24 7 35 68
+     * 478 1 5386
+     * @param pre
+     * @param in
+     * @return
+     */
+    public TreeNode reConstructBinaryTree(int [] pre,int [] in) {
+        return reConstructBinaryTree(pre,0,pre.length-1,in,0,in.length-1);
+    }
+
+    private TreeNode reConstructBinaryTree(int[] pre, int i, int i1, int[] in, int i2, int i3) {
+        if(i>i1|| i2>i3){
+            return null;
+        }
+        TreeNode root = new TreeNode(pre[i]);
+        int index = 0;
+        for (int j = i2; j <i3 ; j++) {
+            if(in[j]==pre[i]){
+                root.left= reConstructBinaryTree(pre,i+1,j-1,in,i2,j-1);
+                root.right= reConstructBinaryTree(pre,j+1,i1,in,j+1,i3);
+                break;
+            }
+        }
+
+        return root;
+    }
+
+
+    public static void main(String[] args) {
+        BinaryTree binaryTree = new BinaryTree();
+        binaryTree.reConstructBinaryTree(new int[]{1,2,4,7,3,5,6,8},new int[]{4,7,8 ,1 ,5,3,8,6});
+
+    }
 }
 
