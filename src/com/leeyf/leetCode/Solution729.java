@@ -1,7 +1,6 @@
 package com.leeyf.leetCode;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class Solution729 {
 	/**
@@ -62,16 +61,49 @@ public class Solution729 {
 	 * 来源：力扣（LeetCode）
 	 * 链接：https://leetcode-cn.com/problems/median-of-two-sorted-arrays
 	 * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
-//	 * @param nums1
-//	 * @param nums2
+	 * @param nums1
+	 * @param nums2
 	 * @return
 	 */
-//	public double findMedianSortedArrays(int[] nums1, int[] nums2) {
-//
-//	}
+	public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+		int nums1Len = nums1.length;
+		int nums2Len = nums2.length;
+		int[] nums = new int[nums1Len+nums2Len];
+		int a1=0,a2 =0;
+		for (int i = 0; i < nums.length; i++) {
+			if(helper(nums1,a1)>helper(nums2,a2)){
+				if(helper(nums2,a2)!=0.1){
+					nums[i] = (int) helper(nums2,a2++);
+				}else {
+					nums[i] = (int) helper(nums1,a1++);
+				}
+			}else {
+				if(helper(nums1,a1)!=0.1){
+					nums[i] = (int) helper(nums1,a1++);
+				}else {
+					nums[i] = (int) helper(nums2,a2++);
+				}
+			}
+		}
+
+		if(nums.length%2==0){
+			return (nums[nums.length/2-1]+nums[nums.length/2])/2.0;
+		}else {
+			return nums[nums.length/2];
+		}
+
+	}
+
+	double helper(int[] arr,int index){
+		if(index<arr.length){
+			return arr[index];
+		}else {
+			return 0.1;
+		}
+	}
 
 	public static void main(String[] args) {
 		Solution729 s = new Solution729();
-		System.out.println(s.lengthOfLongestSubstring("dvdl"));
+		System.out.println(s.findMedianSortedArrays(new int[]{1,4}, new int[]{2,3}));
 	}
 }
